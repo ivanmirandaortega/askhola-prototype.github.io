@@ -62,6 +62,8 @@ function sendMessage() {
 			if (result.data && result.data.rawMessage) {
 				// Display the "rawMessage" from the API response
 				displayMessage(result.data.rawMessage, false);
+				// speak the message from the AI API
+				speak(result.data.rawMessage);
 				console.log(result);
 			} else {
 				console.log('No rawMessage found in the API response.');
@@ -94,24 +96,6 @@ myHeaders.append(
 );
 myHeaders.append('Content-Type', 'application/json');
 
-// // Body JSON
-// const raw = JSON.stringify({
-// 	type: 'message',
-// 	info: {
-// 		psid: '2_cac53eb7-76d2-4b42-a4c4-8b748812e685',
-// 		sender: 'user',
-// 		tenantId: 'cac53eb7-76d2-4b42-a4c4-8b748812e685',
-// 		platformName: 'web',
-// 	},
-// 	message: {
-// 		id: '2',
-// 		type: 'text',
-// 		payload: {
-// 			text: 'what is weed',
-// 		},
-// 	},
-// });
-
 // Request options
 const requestOptions = {
 	method: 'POST',
@@ -119,3 +103,11 @@ const requestOptions = {
 	// body: raw,
 	redirect: 'follow',
 };
+
+// speak function that will take a string and read it alout:
+function speak(text) {
+	let mssg = new SpeechSynthesisUtterance();
+	mssg.text = text;
+	mssg.lang = 'en-US';
+	window.speechSynthesis.speak(mssg);
+}
